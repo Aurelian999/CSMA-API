@@ -12,6 +12,7 @@ using CSMA_API.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using CSMA_API.Options;
 
 namespace CSMA_API
 {
@@ -34,6 +35,10 @@ namespace CSMA_API
                 .AddEntityFrameworkStores<DataContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddSwaggerGen(x =>
+            {
+                x.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Complete Salon Management App API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +52,18 @@ namespace CSMA_API
             {
                 app.UseHsts();
             }
+
+            var swaggerOptions = new SwaggerOptions();
+            Configuration.GetSection(nameof(SwaggerOptions)).Bind(swaggerOptions);
+            app.UseSwagger(options =>
+            {
+                options.RouteTemplate = swaggerOptions.JsonRoute;
+            });
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint(swaggerOptions.UiEndpoint, swaggerOptions.Description);
+            });
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
