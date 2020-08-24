@@ -5,10 +5,16 @@
         public const string Root = "api";
         public const string Version = "v1";
         public const string Base = Root + "/" + Version;
+
         public static class EmployeeWorkingHours
         {
             public const string GetAll = Base + "/" + "employeeworkinghours";
 
+        }
+
+        public static class Posts
+        {
+            public const string GetAll = Base + "/" + "posts";
         }
     }
 }
