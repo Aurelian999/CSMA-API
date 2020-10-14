@@ -9,6 +9,8 @@
         public static class EmployeeWorkingHours
         {
             public const string GetAll = Base + "/" + "employeeworkinghours";
+            public const string Get = Base + "/" + "employeeworkinghours/{employeeId}";
+            public const string Create = Base + "/" + "employeeworkinghours";
 
         }
 
