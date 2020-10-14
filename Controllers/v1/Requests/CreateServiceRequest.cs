@@ -1,8 +1,7 @@
-﻿namespace CSMA_API.Domain
+﻿namespace CSMA_API.Controllers.v1.Requests
 {
-    public class Service
+    public class CreateServiceRequest
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
         /// <summary>
@@ -10,6 +9,5 @@
         /// </summary>
         public int Duration { get; set; }
         public string Description { get; set; }
-
     }
 }

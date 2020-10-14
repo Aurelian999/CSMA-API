@@ -1,6 +1,6 @@
-﻿namespace CSMA_API.Domain
+﻿namespace CSMA_API.Controllers.v1.Responses
 {
-    public class Service
+    public class ServiceResponse
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -10,6 +10,5 @@
         /// </summary>
         public int Duration { get; set; }
         public string Description { get; set; }
-
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace CSMA_API.Domain
+﻿namespace CSMA_API.Domain
 {
     public class Appointment
     {
