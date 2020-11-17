@@ -18,5 +18,12 @@
         {
             public const string GetAll = Base + "/" + "posts";
         }
+
+        public static class Services
+        {
+            public const string GetAll = Base + "/" + "services";
+            public const string Get = Base + "/" + "services/{serviceId}";
+            public const string Create = Base + "/" + "services";
+        }
     }
 }

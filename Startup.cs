@@ -1,10 +1,10 @@
+using CSMA_API.Installers;
+using CSMA_API.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using CSMA_API.Options;
-using CSMA_API.Installers;
 
 namespace CSMA_API
 {
@@ -50,7 +50,13 @@ namespace CSMA_API
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseCors(options =>
+            {
+                options.WithOrigins("http://localhost:3000/")
+                    .SetIsOriginAllowed((host) => true)
+                    .WithMethods("GET", "POST", "PUT")
+                    .AllowAnyHeader();
+            });
 
             app.UseEndpoints(endpoints =>
             {
