@@ -1,4 +1,5 @@
 ﻿using CSMA_API.Data;
+using CSMA_API.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,7 @@ namespace CSMA_API.Installers
             services.AddDbContext<DataContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
+            services.AddSingleton<IServicesService, ServicesService>();
         }
     }
 }

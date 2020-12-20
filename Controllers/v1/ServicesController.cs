@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using CSMA_API.Contracts;
-using CSMA_API.Domain;
+﻿using CSMA_API.Contracts;
+using CSMA_API.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CSMA_API.Controllers.v1
@@ -8,21 +7,30 @@ namespace CSMA_API.Controllers.v1
     [ApiController]
     public class ServicesController : ControllerBase
     {
-        private List<Service> _services;
+        private readonly IServicesService _servicesService;
 
-        public ServicesController()
+        public ServicesController(IServicesService servicesService)
         {
-            _services = new List<Service>();
-            for (int i = 0; i < 9; i++)
-            {
-                _services.Add(new Service { Id = i, Name = "Masaj" + i, Price = i * 20, Duration = i * 10, Description = "Title" + i });
-            }
+            _servicesService = servicesService;
         }
 
         [HttpGet(ApiRoutes.Services.GetAll)]
         public IActionResult GetAll()
         {
-            return Ok(_services);
+            return Ok(_servicesService.GetAll());
+        }
+
+        [HttpGet(ApiRoutes.Services.Get)]
+        public IActionResult GetById(int serviceId)
+        {
+            var service = _servicesService.GetById(serviceId);
+
+            if (service == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(service);
         }
     }
 }
