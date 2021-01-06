@@ -49,6 +49,8 @@ namespace CSMA_API
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseAuthentication();
+
             app.UseRouting();
             app.UseCors(options =>
             {
