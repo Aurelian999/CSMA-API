@@ -5,7 +5,7 @@ namespace CSMA_API.Controllers.v1.Responses
 {
     public class BlogPostResponse
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public DateTime Date { get; set; }
         public int AuthorId { get; set; }
         public string Title { get; set; }

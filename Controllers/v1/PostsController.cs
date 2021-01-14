@@ -1,28 +1,58 @@
 ﻿using CSMA_API.Contracts;
+using CSMA_API.Controllers.v1.Requests;
+using CSMA_API.Controllers.v1.Responses;
 using CSMA_API.Domain;
+using CSMA_API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CSMA_API.Controllers.v1
 {
     public class PostsController : ControllerBase
     {
-        private List<BlogPost> _blogPosts;
+        private readonly IPostsService _postsService;
 
-        public PostsController()
+        public PostsController(IPostsService postsService)
         {
-            _blogPosts = new List<BlogPost>();
-            for (int i = 0; i < 3; i++)
+            _postsService = postsService;
+        }
+
+        [HttpPost(ApiRoutes.Posts.Create)]
+        public async Task<IActionResult> Create([FromBody] CreateBlogPostRequest postRequest)
+        {
+            var post = new BlogPost
             {
-                _blogPosts.Add(new BlogPost { Id = i, AuthorId = 1, Content = "some post content", Date = DateTime.Now, Title = "Title" + i });
-            }
+                Id = Guid.NewGuid(),
+                AuthorId = postRequest.AuthorId,
+                Date = DateTime.UtcNow,
+                Title = postRequest.Title,
+                Tags = postRequest.Tags,
+                Content = postRequest.Content
+            };
+
+            await _postsService.CreatePostAsync(post);
+            var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
+            var locationUri = baseUrl + "/" + ApiRoutes.Posts.Get.Replace("{postId}", post.Id.ToString());
+
+            var response = new BlogPostResponse
+            {
+                Id = post.Id,
+                AuthorId = postRequest.AuthorId,
+                Date = DateTime.UtcNow,
+                Title = postRequest.Title,
+                Tags = postRequest.Tags,
+                Content = postRequest.Content
+            };
+
+            return Created(locationUri, response);
+
         }
 
         [HttpGet(ApiRoutes.Posts.GetAll)]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(_blogPosts);
+            return Ok(await _postsService.GetPostsAsync());
         }
     }
 }

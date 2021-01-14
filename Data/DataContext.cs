@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CSMA_API.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,5 +10,7 @@ namespace CSMA_API.Data
             : base(options)
         {
         }
+
+        public DbSet<BlogPost> Posts { get; set; }
     }
 }
