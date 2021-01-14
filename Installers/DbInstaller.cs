@@ -15,6 +15,7 @@ namespace CSMA_API.Installers
             );
 
             services.AddSingleton<IServicesService, ServicesService>();
+            services.AddScoped<IPostsService, PostsService>();
         }
     }
 }

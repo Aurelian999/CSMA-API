@@ -27,7 +27,7 @@ namespace CSMA_API.Controllers.v1
                 AuthorId = postRequest.AuthorId,
                 Date = DateTime.UtcNow,
                 Title = postRequest.Title,
-                Tags = postRequest.Tags,
+                //Tags = postRequest.Tags,
                 Content = postRequest.Content
             };
 
@@ -53,6 +53,19 @@ namespace CSMA_API.Controllers.v1
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _postsService.GetPostsAsync());
+        }
+
+        [HttpGet(ApiRoutes.Posts.Get)]
+        public async Task<IActionResult> Get([FromRoute] Guid postId)
+        {
+            var post = await _postsService.GetPostByIdAsync(postId);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(post);
         }
     }
 }

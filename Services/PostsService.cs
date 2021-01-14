@@ -26,6 +26,12 @@ namespace CSMA_API.Services
         public async Task<bool> DeletePostAsync(Guid postId)
         {
             var post = await GetPostByIdAsync(postId);
+
+            if (post == null)
+            {
+                return false;
+            }
+
             _dataContext.Posts.Remove(post);
             var deletedCount = await _dataContext.SaveChangesAsync();
             return deletedCount > 0;
