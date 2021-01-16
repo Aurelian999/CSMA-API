@@ -49,7 +49,7 @@ namespace CSMA_API
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseAuthentication();
+
 
             app.UseRouting();
             app.UseCors(options =>
@@ -59,6 +59,9 @@ namespace CSMA_API
                     .WithMethods("GET", "POST", "PUT")
                     .AllowAnyHeader();
             });
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

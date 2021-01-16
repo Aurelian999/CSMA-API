@@ -3,12 +3,15 @@ using CSMA_API.Controllers.v1.Requests;
 using CSMA_API.Controllers.v1.Responses;
 using CSMA_API.Domain;
 using CSMA_API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
 namespace CSMA_API.Controllers.v1
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PostsController : ControllerBase
     {
         private readonly IPostsService _postsService;
@@ -32,8 +35,8 @@ namespace CSMA_API.Controllers.v1
             };
 
             await _postsService.CreatePostAsync(post);
-            var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-            var locationUri = baseUrl + "/" + ApiRoutes.Posts.Get.Replace("{postId}", post.Id.ToString());
+            var baseUrl = new Uri($"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}");
+            var locationUri = new Uri(baseUrl, ApiRoutes.Posts.Get.Replace("{postId}", post.Id.ToString()));
 
             var response = new BlogPostResponse
             {

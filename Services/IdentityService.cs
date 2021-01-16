@@ -16,9 +16,10 @@ namespace CSMA_API.Services
         private readonly UserManager<IdentityUser> _userManager;
         private readonly JwtSettings _jwtSettings;
 
-        public IdentityService(UserManager<IdentityUser> userManager)
+        public IdentityService(UserManager<IdentityUser> userManager, JwtSettings jwtSettings)
         {
             _userManager = userManager;
+            _jwtSettings = jwtSettings;
         }
 
         public async Task<AuthenticationResult> RegisterAsync(string email, string password)
@@ -49,6 +50,36 @@ namespace CSMA_API.Services
                 };
             }
 
+            return RetrieveAuthenticationResult(newUser);
+        }
+
+        public async Task<AuthenticationResult> LoginAsync(string email, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "User does not exist" }
+                };
+            }
+
+            var matchingPasswordProvided = await _userManager.CheckPasswordAsync(user, password);
+
+            if (!matchingPasswordProvided)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "The provided email/password combination is invalid" }
+                };
+            }
+
+            return RetrieveAuthenticationResult(user);
+        }
+
+        private AuthenticationResult RetrieveAuthenticationResult(IdentityUser newUser)
+        {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -65,10 +96,6 @@ namespace CSMA_API.Services
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            // TODO
-            // https://www.youtube.com/watch?v=ARvsBUBioT0&list=PLUOequmGnXxOgmSDWU7Tl6iQTsOtyjtwU&index=11&ab_channel=NickChapsas
-            // @ 13:36
 
             return new AuthenticationResult { Success = true, Token = tokenHandler.WriteToken(token) };
         }
