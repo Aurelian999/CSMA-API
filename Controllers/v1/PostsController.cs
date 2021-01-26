@@ -2,6 +2,7 @@
 using CSMA_API.Controllers.v1.Requests;
 using CSMA_API.Controllers.v1.Responses;
 using CSMA_API.Domain;
+using CSMA_API.Extensions;
 using CSMA_API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -27,7 +28,7 @@ namespace CSMA_API.Controllers.v1
             var post = new BlogPost
             {
                 Id = Guid.NewGuid(),
-                AuthorId = postRequest.AuthorId,
+                AuthorId = HttpContext.GetUserId(),
                 Date = DateTime.UtcNow,
                 Title = postRequest.Title,
                 //Tags = postRequest.Tags,
@@ -41,7 +42,7 @@ namespace CSMA_API.Controllers.v1
             var response = new BlogPostResponse
             {
                 Id = post.Id,
-                AuthorId = postRequest.AuthorId,
+                AuthorId = HttpContext.GetUserId(),
                 Date = DateTime.UtcNow,
                 Title = postRequest.Title,
                 Tags = postRequest.Tags,
@@ -70,5 +71,50 @@ namespace CSMA_API.Controllers.v1
 
             return Ok(post);
         }
+
+        [HttpPut(ApiRoutes.Posts.Update)]
+        public async Task<IActionResult> Update([FromRoute]Guid postId, [FromBody]UpdateBlogPostRequest updateBlogPostRequest)
+        {
+            var userOwnsPost = await _postsService.UserOwnsPostAsync(postId, HttpContext.GetUserId());
+
+            if (!userOwnsPost)
+            {
+                return BadRequest(new { error = "You cand only edit your own posts." });
+            }
+
+            var post = await _postsService.GetPostByIdAsync(postId);
+            post.Title = updateBlogPostRequest.Title;
+            post.Content = updateBlogPostRequest.Content;
+            //post.Tags = updateBlogPostRequest.Tags;
+
+            var updated = await _postsService.UpdatePostAsync(post);
+
+            if (updated)
+            {
+                return Ok(post);
+            }
+            return NotFound();
+        }
+
+        [HttpDelete(ApiRoutes.Posts.Delete)]
+        public async Task<IActionResult> Delete([FromRoute]Guid postId)
+        {
+            var userOwnsPost = await _postsService.UserOwnsPostAsync(postId, HttpContext.GetUserId());
+
+            if (!userOwnsPost)
+            {
+                return BadRequest(new { error = "You cand only remove your own posts." });
+            }
+
+            var deleted = await _postsService.DeletePostAsync(postId);
+
+            if (deleted)
+            {
+                return NoContent();
+            }
+            return NotFound();
+        }
+
+
     }
 }

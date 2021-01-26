@@ -17,9 +17,7 @@ namespace CSMA_API.Services
         Task<bool> UpdatePostAsync(BlogPost postToUpdate);
 
         Task<bool> DeletePostAsync(Guid postId);
-
-        // TODO  @3:40  // @7:26
-        // https://www.youtube.com/watch?v=qEmxoCOH4Uw&list=PLUOequmGnXxOgmSDWU7Tl6iQTsOtyjtwU&index=8
+        Task<bool> UserOwnsPostAsync(Guid postId, string userId);
 
     }
 }

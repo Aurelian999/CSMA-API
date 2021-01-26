@@ -54,5 +54,17 @@ namespace CSMA_API.Services
 
             return updatedCount > 0;
         }
+
+        public async Task<bool> UserOwnsPostAsync(Guid postId, string userId)
+        {
+            var post = await _dataContext.Posts.AsNoTracking().SingleOrDefaultAsync(post => post.Id == postId);
+
+            if (post == null)
+            {
+                return false;
+            }
+
+            return post.AuthorId == userId;
+        }
     }
 }
