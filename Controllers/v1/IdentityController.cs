@@ -45,21 +45,21 @@ namespace CSMA_API.Controllers
         }
 
         [HttpPost(ApiRoutes.Identity.Login)]
-        public async Task<IActionResult> Login([FromBody] UserLoginRequest registrationRequest)
+        public async Task<IActionResult> Login([FromBody] UserLoginRequest loginRequest)
         {
-            var registrationResponse = await _identityService.RegisterAsync(registrationRequest.Email, registrationRequest.Password);
+            var authenticationResponse = await _identityService.LoginAsync(loginRequest.Email, loginRequest.Password);
 
-            if (!registrationResponse.Success)
+            if (!authenticationResponse.Success)
             {
                 return BadRequest(new AuthFailedResponse
                 {
-                    Errors = registrationResponse.Errors
+                    Errors = authenticationResponse.Errors
                 });
             }
 
             return Ok(new AuthSuccessResponse
             {
-                Token = registrationResponse.Token
+                Token = authenticationResponse.Token
             });
         }
     }
