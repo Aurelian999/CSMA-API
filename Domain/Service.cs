@@ -1,4 +1,6 @@
-﻿namespace CSMA_API.Domain
+﻿using System.ComponentModel;
+
+namespace CSMA_API.Domain
 {
     public class Service
     {
@@ -10,6 +12,12 @@
         /// </summary>
         public int Duration { get; set; }
         public string Description { get; set; }
+        /// <summary>
+        /// Number of sessions: 1 - One-time session; >1 - Subscription package
+        /// </summary>
+        /// TODO add default value 1
+        //[DefaultValue(1)]
+        public int Sessions { get; set; }
 
     }
 }

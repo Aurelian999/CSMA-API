@@ -30,7 +30,7 @@ namespace CSMA_API.Services
             {
                 return new AuthenticationResult
                 {
-                    Errors = new[] { "A user was already registered using this email.If you forgot your password you can reset it." }
+                    Errors = new[] { "A user was already registered using this email. If you forgot your password you can reset it." }
                 };
             }
 
@@ -38,7 +38,7 @@ namespace CSMA_API.Services
             {
                 Email = email,
                 UserName = email,
-            };
+            }; 
 
             var createdUser = await _userManager.CreateAsync(newUser, password);
 
