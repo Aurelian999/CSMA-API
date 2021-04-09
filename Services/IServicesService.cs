@@ -7,5 +7,7 @@ namespace CSMA_API.Services
     {
         List<Service> GetAll();
         Service GetById(int id);
+        bool UpdateService(Service serviceToUpdate);
+
     }
 }

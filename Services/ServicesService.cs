@@ -27,5 +27,20 @@ namespace CSMA_API.Services
         {
             return _services.FirstOrDefault(service => service.Id == id);
         }
+
+        public bool UpdateService(Service serviceToUpdate)
+        {
+            bool postExists = GetById(serviceToUpdate.Id) != null;
+
+            if (!postExists)
+            {
+                return false;
+            }
+
+            var index = _services.FindIndex(x => x.Id == serviceToUpdate.Id);
+            _services[index] = serviceToUpdate;
+
+            return true;
+        }
     }
 }
