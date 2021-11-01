@@ -21,5 +21,7 @@ namespace CSMA_API.Domain
         //[DefaultValue(1)]
         public int Sessions { get; set; }
 
+        public byte[]? DisplayImage { get; set; }
+
     }
 }

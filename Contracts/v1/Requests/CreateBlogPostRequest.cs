@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace CSMA_API.Controllers.v1.Requests
 {
@@ -9,6 +8,9 @@ namespace CSMA_API.Controllers.v1.Requests
         public string AuthorId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
-        public List<string> Tags { get; set; }
+        /// <summary>
+        /// Comma separated tags
+        /// </summary>
+        public string Tags { get; set; } 
     }
 }

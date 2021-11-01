@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,8 +16,9 @@ namespace CSMA_API.Domain
 
         [ForeignKey(nameof(AuthorId))]
         public IdentityUser User { get; set; }
-
-        // TODO find some primitive type to use instead of list, so EF can create a DB column for this
-        //public List<string> Tags { get; set; } 
+        /// <summary>
+        /// Comma separated tags
+        /// </summary>
+        public string Tags { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace CSMA_API.Controllers.v1
                 AuthorId = HttpContext.GetUserId(),
                 Date = DateTime.UtcNow,
                 Title = postRequest.Title,
-                //Tags = postRequest.Tags,
+                Tags = postRequest.Tags,
                 Content = postRequest.Content
             };
 
