@@ -12,6 +12,7 @@ namespace CSMA_API.Application.Common.Mapping
             CreateMap<Appointment, AppointmentDto>().ReverseMap();
             CreateMap<Service, ServiceDto>().ReverseMap();
             CreateMap<Service, CreateServiceCommand>().ReverseMap();
+            CreateMap<EmployeeWorkingHours, EmployeeWorkingHoursDto>().ReverseMap();
         }
     }
 }

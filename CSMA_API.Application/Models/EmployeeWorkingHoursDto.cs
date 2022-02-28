@@ -1,6 +1,6 @@
-﻿namespace CSMA_API.Domain
+﻿namespace CSMA_API.Application.Models
 {
-    public class EmployeeWorkingHours
+    public class EmployeeWorkingHoursDto
     {
         public int Id { get; set; }
         public int UserId { get; set; }
