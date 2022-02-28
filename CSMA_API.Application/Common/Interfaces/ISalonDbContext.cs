@@ -7,6 +7,9 @@ namespace CSMA_API.Application.Common.Interfaces
     public interface ISalonDbContext
     {
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Service> Services { get; set; }
+        public DbSet<BlogPost> Posts { get; set; }
+        public DbSet<EmployeeWorkingHours> WorkingHours { get; set; }
 
         ChangeTracker GetChangeTracker();
 

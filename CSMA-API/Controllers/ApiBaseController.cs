@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CSMA_API.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class ApiBaseController : ControllerBase
     {
         private IMediator _mediator;

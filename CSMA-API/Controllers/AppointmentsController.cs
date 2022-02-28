@@ -1,4 +1,5 @@
-﻿using CSMA_API.Application.Handlers.Commands;
+﻿using CSMA_API.Application.Commands;
+using CSMA_API.Application.Handlers.Commands;
 using CSMA_API.Application.Queries;
 using Microsoft.AspNetCore.Mvc;
 
