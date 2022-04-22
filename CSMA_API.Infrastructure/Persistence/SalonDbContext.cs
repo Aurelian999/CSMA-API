@@ -1,12 +1,13 @@
 ﻿using CSMA_API.Application.Common.Interfaces;
 using CSMA_API.Domain;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CSMA_API.Infrastructure.Persistence
 {
-    public class SalonDbContext : DbContext, ISalonDbContext
+    public class SalonDbContext : IdentityDbContext, ISalonDbContext
     {
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Service> Services { get; set; }
@@ -40,6 +41,11 @@ namespace CSMA_API.Infrastructure.Persistence
             builder.Properties<TimeOnly?>()
                 .HaveConversion<NullableTimeOnlyConverter>()
                 .HaveColumnType("date");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
         }
     }
 
