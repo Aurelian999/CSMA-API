@@ -5,9 +5,7 @@ using CSMA.API.Core;
 using CSMA.API.Infrastructure;
 using CSMA.API.Infrastructure.Data;
 using CSMA.API.Web;
-using FastEndpoints;
 using FastEndpoints.Swagger.Swashbuckle;
-using FastEndpoints.ApiExplorer;
 using Microsoft.OpenApi.Models;
 using Serilog;
 
@@ -27,10 +25,8 @@ string? connectionString = builder.Configuration.GetConnectionString("SqliteConn
 
 builder.Services.AddDbContext(connectionString!);
 
-builder.Services.AddControllersWithViews().AddNewtonsoftJson();
-builder.Services.AddRazorPages();
-builder.Services.AddFastEndpoints();
-builder.Services.AddFastEndpointsApiExplorer();
+builder.Services.AddControllers().AddNewtonsoftJson();
+
 builder.Services.AddSwaggerGen(c =>
 {
   c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -69,7 +65,6 @@ else
   app.UseHsts();
 }
 app.UseRouting();
-app.UseFastEndpoints();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -82,7 +77,6 @@ app.UseSwagger();
 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"));
 
 app.MapDefaultControllerRoute();
-app.MapRazorPages();
 
 // Seed Database
 using (var scope = app.Services.CreateScope())
